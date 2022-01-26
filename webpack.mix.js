@@ -11,7 +11,18 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
+mix.js('resources/app/index.js', 'public/js')
+    .react()
+    .sass('resources/sass/app.scss', 'public/css/app-v1.css')
     .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+        require('postcss-import'),
+        require('tailwindcss'),
+        require('autoprefixer'),
+    ]).extract();
+
+
+if (mix.inProduction()) {
+    mix.version();
+} else {
+    mix.sourceMaps();
+}
